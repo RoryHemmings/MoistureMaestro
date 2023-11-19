@@ -14,15 +14,15 @@ const pool = new Pool({
 export const initDB = async () => {
     try {
         await query(`
-			CREATE TABLE IF NOT EXISTS "history" (
-				"id" SERIAL,
-				"device_id" INTEGER NOT NULL,
-				"event" INTEGER NOT NULL,
-				"reading" INTEGER NOT NULL,
-				"timestamp" TIMESTAMPTZ NOT NULL,
-				PRIMARY KEY ("id")
-			);
-		`);
+            CREATE TABLE IF NOT EXISTS "history" (
+                "id" SERIAL,
+                "device_id" INTEGER NOT NULL,
+                "event" INTEGER NOT NULL,
+                "reading" INTEGER NOT NULL,
+                "timestamp" TIMESTAMPTZ NOT NULL,
+                PRIMARY KEY ("id")
+            );
+        `);
         console.log("Successfully Initialized Table");
     } catch (err) {
         console.error("Failed to initalize table");
