@@ -2,8 +2,10 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import * as db from "./db";
+import { generateMoistureTestData } from "./util";
 
 const app = express();
+const test = true; 
 dotenv.config(); // Read env variables from .env file
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,6 +14,9 @@ app.use(bodyParser.raw());
 
 // Set up Database Tables
 db.initDB();
+if (test) {
+    generateMoistureTestData(); 
+}
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.send("Hello World");
@@ -30,7 +35,7 @@ app.post("/new", async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body;
     try {
         await db.query(
-            "INSERT INTO history (device_id, event, reading, timestamp) VALUES ($1, $2, $3, $4);", 
+            "INSERT INTO history (device_id, event_type, reading, timestamp) VALUES ($1, $2, $3, $4);", 
             [body.device_id, body.event, body.reading, new Date()]
         );
         res.send("Success");

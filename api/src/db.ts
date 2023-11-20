@@ -17,8 +17,8 @@ export const initDB = async () => {
             CREATE TABLE IF NOT EXISTS "history" (
                 "id" SERIAL,
                 "device_id" INTEGER NOT NULL,
-                "event" INTEGER NOT NULL,
-                "reading" INTEGER NOT NULL,
+                "event_type" INTEGER NOT NULL,
+                "reading" REAL NOT NULL,
                 "timestamp" TIMESTAMPTZ NOT NULL,
                 PRIMARY KEY ("id")
             );
