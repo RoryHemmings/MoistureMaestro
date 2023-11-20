@@ -6,6 +6,7 @@ services:
     build: .
     ports:
       - ${PORT}:${PORT}
+      - ${ARDUINO_SERVER_PORT}:${ARDUINO_SERVER_PORT}
     depends_on:
       - db
     volumes:
