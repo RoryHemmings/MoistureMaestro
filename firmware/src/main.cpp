@@ -69,24 +69,28 @@ void loop()
     // wait for data and respond accordingly
     // monitor stuff and send it to arduino when nessecary
 
-    while (client.available()) {
-        char c = client.read();
-        // switch (c) {
-        // case 'O':
-        // 	digitalWrite(LED_PIN, HIGH);
-        // 	break;
-        // case 'C':
-        // 	digitalWrite(LED_PIN, LOW);
-        // 	break;
-        // }
-
-        Serial.write(c);
-    }
-
     if (!client.available()) {
         Serial.println();
         Serial.println("disconnecting from server");
 
         client.stop();
+        delay(1000);
+        return;
+    } else {
+        client.write("0:2:3.14,1:2:1.234");
     }
+
+    // while (client.available()) {
+    //     char c = client.read();
+    //     // switch (c) {
+    //     // case 'O':
+    //     // 	digitalWrite(LED_PIN, HIGH);
+    //     // 	break;
+    //     // case 'C':
+    //     // 	digitalWrite(LED_PIN, LOW);
+    //     // 	break;
+    //     // }
+    // }
+
+    
 }
