@@ -6,7 +6,6 @@ import { generateMoistureTestData } from "./util";
 import { initArduinoListener, openValve, closeValve } from "./arduino";
 
 const app = express();
-const test = true;
 dotenv.config(); // Read env variables from .env file
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,9 +14,9 @@ app.use(bodyParser.raw());
 
 // Set up Database Tables
 db.initDB();
-if (test) {
-    generateMoistureTestData();
-}
+// if (test) {
+//     generateMoistureTestData();
+// }
 
 // Set up server to communicate with arduino
 initArduinoListener();
@@ -32,6 +31,17 @@ app.get("/all", async (req: Request, res: Response, next: NextFunction) => {
         res.status(200).json(data.rows);
     } catch (err) {
         res.status(500).send("Failed to read from database");
+    }
+});
+
+// Return the status of each valve
+app.get("/status", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        throw Error("Not implemented yet");
+        // const ret = await valveStatus();
+        // res.status(200).json(ret);
+    } catch (err) {
+        res.status(500).send("Failed to get valve status"); 
     }
 });
 
@@ -51,24 +61,20 @@ app.post("/new", async (req: Request, res: Response, next: NextFunction) => {
 
 app.post("/open", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        openValve();
-        res.status(200);
+        openValve(req.body.valve_id);
+        res.status(200).send();
     } catch (err) {
-        res.status(500).send("Could Not Read Valve Status");
+        res.status(500).send("Failed to open valve");
     }
 });
 
 app.post("/close", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        closeValve();
-        res.status(200);
+        closeValve(req.body.valve_id);
+        res.status(200).send();
     } catch (err) {
-        res.status(500).send("Could Not Read Valve Status");
+        res.status(500).send("Failed to close valve");
     }
-});
-
-app.get("/status", async (req: Request, res: Response, next: NextFunction) => {
-   // TODO get valve status given device id 
 });
 
 app.get("*", (req: Request, res: Response) => {

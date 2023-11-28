@@ -14,17 +14,13 @@ let socket: Socket | undefined;
 
 export const initArduinoListener = () => {
     const server = createServer((client: Socket) => {
-        if (socket !== undefined)
-            return
+        // Disconnect other client if connected (any client can kick any othe client off, solves reconnecting problem)
+        socket?.destroy();
 
-        socket = client
         console.log(`Established Connection with Client: ${client.remoteAddress}:${client.remotePort}`);
-
         client.on('data', handleData);
-        client.on('close', () => {
-            console.log(`Disconnected from client`);
-            socket = undefined;
-        });
+
+        socket = client;
     });
 
     server.listen(process.env.ARDUINO_SERVER_PORT);
@@ -32,11 +28,9 @@ export const initArduinoListener = () => {
 
 const handleData = (data: Buffer) => {
     const s: string[] = data.toString().split(',');
-    console.log(s);
-    return;
 
     // device_id:event:data_point,...
-    for (let i = 1; i < s.length; i++) {
+    for (let i = 0; i < s.length; i++) {
         try {
             const [device_id, event_type, reading] = s[i].split(':').map(n => Number(n));
             db.query(
@@ -49,16 +43,20 @@ const handleData = (data: Buffer) => {
     }
 }
 
-export const openValve = () => {
+export const openValve = (valve_id: number) => {
     if (socket === undefined)
         throw Error("Connection with Arduino Failed");
 
-    socket.write("o");
+    socket.write(`O${valve_id}`);
 }
 
-export const closeValve = () => {
+export const closeValve = (valve_id: number) => {
     if (socket === undefined)
         throw Error("Connection with Arduino Failed");
 
-    socket.write("c");
+    socket.write(`C${valve_id}`);
+}
+
+export const valveStatus = () => {
+
 }
