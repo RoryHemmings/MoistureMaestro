@@ -2,7 +2,6 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import * as db from "./db";
-import { generateMoistureTestData } from "./util";
 import { initArduinoListener, openValve, closeValve } from "./arduino";
 
 const app = express();
@@ -14,9 +13,6 @@ app.use(bodyParser.raw());
 
 // Set up Database Tables
 db.initDB();
-// if (test) {
-//     generateMoistureTestData();
-// }
 
 // Set up server to communicate with arduino
 initArduinoListener();
@@ -42,20 +38,6 @@ app.get("/status", async (req: Request, res: Response, next: NextFunction) => {
         // res.status(200).json(ret);
     } catch (err) {
         res.status(500).send("Failed to get valve status"); 
-    }
-});
-
-app.post("/new", async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body;
-    try {
-        await db.query(
-            "INSERT INTO history (device_id, event_type, reading, timestamp) VALUES ($1, $2, $3, $4);",
-            [body.device_id, body.event, body.reading, new Date()]
-        );
-        res.send("Success");
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Failed to insert");
     }
 });
 
