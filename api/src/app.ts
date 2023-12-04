@@ -24,7 +24,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 //Change to another http verb
 app.get("/seed", (req: Request, res: Response, next: NextFunction) => {
-    generateMoistureTestData(); 
+    // generateMoistureTestData(); 
     generatePlantTestData(); 
     res.status(200); 
     res.send("Successfully seeded database");
