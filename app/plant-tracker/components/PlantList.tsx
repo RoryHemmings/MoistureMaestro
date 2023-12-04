@@ -1,22 +1,6 @@
-import { Text, FlatList, View, StyleSheet } from 'react-native'
+import { Text, FlatList, View, Image, StyleSheet } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../Context';
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        gap: 20,
-    },
-    item: {
-        margin: 10,
-        padding: 10,
-        fontSize: 18,
-        borderRadius: 5, 
-        height: 44,
-        // backgroundColor: 'red',
-    },
-});
 
 export default function PlantList() {
     const { ip } = useContext(AppContext);
@@ -28,12 +12,48 @@ export default function PlantList() {
             })
         })
     }, [])
+
+    const Item = ({ item }) => {
+        return (
+            <View>
+                <Image
+                    style={styles.image}
+                    source={{
+                        uri: item.image,
+                    }}
+                />
+                <Text style={styles.item}>{item.plant_name}</Text>
+            </View>
+        );
+    }
     return (
         <View style={styles.container}>
             <FlatList
                 data={plants}
-                renderItem={({ item }) => <Text style={styles.item}>{item.plant_name}</Text>}
+                renderItem={({ item }) => <Item item={item} />}
             />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%',
+        gap: 20,
+        paddingVertical: 20,
+    },
+    item: {
+        fontFamily: 'satoshi-m',
+        fontWeight: '300',
+        fontSize: 18,
+        borderRadius: 5,
+        height: 44,
+    },
+    image: {
+        width: '100%', 
+        height: 200, 
+        borderRadius: 6, 
+        marginBottom: 20
+    }
+});
