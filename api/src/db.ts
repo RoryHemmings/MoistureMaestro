@@ -22,6 +22,15 @@ export const initDB = async () => {
                 "timestamp" TIMESTAMPTZ NOT NULL,
                 PRIMARY KEY ("id")
             );
+            CREATE TABLE IF NOT EXISTS "plants" (
+                "device_id" INTEGER NOT NULL,
+                "plant_name" VARCHAR NOT NULL,
+                "optimal_range_min" REAL NOT NULL,
+                "optimal_range_max" REAL NOT NULL,
+                "connected_valve" INTEGER NOT NULL,
+                "image" VARCHAR NOT NULL,
+                PRIMARY KEY ("device_id")
+            ); 
         `);
         console.log("Successfully Initialized Table");
     } catch (err) {
