@@ -13,14 +13,14 @@
 
 #define LED_PIN LED_BUILTIN
 
-#define SERVER_ADDRESS "172.20.10.2"
+// #define SERVER_ADDRESS "172.20.10.2"
+#define SERVER_ADDRESS "172.16.0.4"
 #define SERVER_PORT 3001
 
 /* Constants */
 const char SSID[] = SECRET_SSID;
 const char PASS[] = SECRET_PASS;
 const int DEBUG_INTERVAL = 5000; /* Interval at which to update board information (milliseconds) */
-static const int SOLENOID_PINS[] = {11, 12};
 
 // Upload data every 2 seconds
 const int UPLOAD_INTERVAL = 2000;
@@ -48,6 +48,7 @@ void setup()
         ; /* Wait until serial is set up */
 
     pinMode(LED_PIN, OUTPUT);
+    initValves();
 
     /* Attempt to connect to wifi */
     while (status != WL_CONNECTED) {
@@ -67,6 +68,13 @@ void setup()
 
 void loop()
 {
+    // digitalWrite(12, LOW);
+    // digitalWrite(11, HIGH);
+    // delay(1000);
+    // digitalWrite(12, HIGH);
+    // digitalWrite(11, LOW);
+    // delay(1000);
+    // return;
     unsigned long current_time = millis();
 
     if (client.status() == 0) {
