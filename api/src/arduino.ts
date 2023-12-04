@@ -32,7 +32,14 @@ const handleData = (data: Buffer) => {
     // device_id:event:data_point,...
     for (let i = 0; i < s.length; i++) {
         try {
-            const [device_id, event_type, reading] = s[i].split(':').map(n => Number(n));
+            let [device_id, event_type, reading] = s[i].split(':').map(n => Number(n));
+            console.log(device_id, event_type, reading);
+
+            if (reading > 1000) // Bug fix
+                reading = Math.floor(reading / 10);
+
+            console.log("New: ", reading);
+
             db.query(
                 "INSERT INTO history (device_id, event_type, reading, timestamp) VALUES ($1, $2, $3, $4);",
                 [device_id, event_type, reading, new Date()]

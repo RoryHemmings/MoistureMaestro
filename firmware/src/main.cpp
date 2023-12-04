@@ -19,8 +19,8 @@ const char SSID[] = SECRET_SSID;
 const char PASS[] = SECRET_PASS;
 const int DEBUG_INTERVAL = 5000; /* Interval at which to update board information (milliseconds) */
 
-// Upload data every 2 seconds
-const int UPLOAD_INTERVAL = 2000;
+// Upload data every 30 seconds
+const int UPLOAD_INTERVAL = 30000;
 unsigned long last_upload_time = 0;
 
 /* Statics */
