@@ -13,10 +13,6 @@
 
 #define LED_PIN LED_BUILTIN
 
-// #define SERVER_ADDRESS "172.20.10.2"
-#define SERVER_ADDRESS "172.16.0.4"
-#define SERVER_PORT 3001
-
 /* Constants */
 const char SSID[] = SECRET_SSID;
 const char PASS[] = SECRET_PASS;
