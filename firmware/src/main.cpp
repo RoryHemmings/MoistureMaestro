@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <WiFiNINA.h>
 
+#include "sensor.h"
 #include "valve.h"
 
 /* Contains secrets I don't want in the git repo */
@@ -64,13 +65,6 @@ void setup()
 
 void loop()
 {
-    // digitalWrite(12, LOW);
-    // digitalWrite(11, HIGH);
-    // delay(1000);
-    // digitalWrite(12, HIGH);
-    // digitalWrite(11, LOW);
-    // delay(1000);
-    // return;
     unsigned long current_time = millis();
 
     if (client.status() == 0) {
@@ -83,8 +77,14 @@ void loop()
 
     // Upload sensor data at specified interval
     if (current_time - last_upload_time > UPLOAD_INTERVAL) {
-        client.write("0:2:3.14,1:2:1.234");
-        Serial.println("Sent Data");
+        static char buf[128];
+        snprintf(buf, sizeof(buf),
+            "2:2:%d,3:2:%d,4:2:%d",
+            (int) readSensor(2),
+            (int) readSensor(3),
+            (int) readSensor(4));
+        
+        client.write(buf);
         last_upload_time = current_time;
     }
 
