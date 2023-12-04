@@ -15,6 +15,11 @@ static Valve valves[2] = {
     { 1, 12, Closed }
 };
 
+void initValves() {
+    pinMode(valves[0].pin, OUTPUT);
+    pinMode(valves[1].pin, OUTPUT);
+}
+
 void openValve(int valve_id) {
     if (valve_id < 0 || valve_id > 1)
         return;
