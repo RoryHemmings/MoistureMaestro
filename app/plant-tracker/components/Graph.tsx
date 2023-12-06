@@ -1,7 +1,18 @@
-import { View, Text, Dimensions } from 'react-native'
+import { Dimensions } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import LineChart, { LineChartData } from 'react-native-chart-kit/dist/line-chart/LineChart';
 import { AppContext } from '../Context';
+
+function formatAMPM(date: Date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    let strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+}
 
 export default function Graph({ deviceID }: { deviceID: number }) {
     const { ip } = useContext(AppContext);
@@ -17,10 +28,15 @@ export default function Graph({ deviceID }: { deviceID: number }) {
     const screenWidth = Dimensions.get("window").width;
 
     function generateData(data: any[]) {
-        // console.log(data); 
+        console.log(data.length);
         if (data.length !== 0) {
             let _data: LineChartData = {
-                labels: data.map((d, i) => { return i.toString(); }),
+                labels: data.map((d, i) => {
+                    let date = new Date(d.timestamp);
+                    // let label = `${date.getHours() % 12 || 12}:${date.getMinutes().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`
+                    // console.log(d.timestamp, new Date(d.timestamp).getHours(), new Date(d.timestamp).getMinutes());
+                    return formatAMPM(date);
+                }),
                 datasets: [
                     {
                         data: data.map((d) => { return d.reading })
@@ -48,19 +64,19 @@ export default function Graph({ deviceID }: { deviceID: number }) {
                 height={256}
                 verticalLabelRotation={30}
                 chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#fb8c00",
-                    backgroundGradientTo: "#ffa726",
+                    backgroundColor: "#fff",
+                    backgroundGradientFrom: "#fff",
+                    backgroundGradientTo: "#fff",
                     decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                     style: {
                         borderRadius: 16
                     },
                     propsForDots: {
-                        r: "6",
-                        strokeWidth: "2",
-                        stroke: "#ffa726"
+                        r: "4",
+                        strokeWidth: "1",
+                        stroke: "#000"
                     }
                 }}
                 bezier

@@ -4,7 +4,7 @@ import { AppContext } from '../Context';
 
 
 
-function ValveController({ sensorId }: { sensorId: number }) {
+function ValveController({ sensorId, duration }: { sensorId: number, duration: number }) {
     const { ip } = useContext(AppContext)
     const [valveState, setValveState] = useState(false);
     const animatedValue = useRef(new Animated.Value(0)).current;
@@ -13,7 +13,7 @@ function ValveController({ sensorId }: { sensorId: number }) {
         const startAnimation = () => {
             Animated.timing(animatedValue, {
                 toValue: 1,
-                duration: 15000,
+                duration: 1000 * duration,
                 easing: Easing.linear,
                 useNativeDriver: false,
             }).start(() => {
@@ -43,7 +43,6 @@ function ValveController({ sensorId }: { sensorId: number }) {
             method: "POST"
         })
     }
-
 
     return (
         <TouchableOpacity

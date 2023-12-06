@@ -17,7 +17,7 @@ export default function PlantList() {
 
     const Item = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => {navigation.navigate('Plant', {deviceID: item.device_id})}} style={styles.item}>
+            <TouchableOpacity onPress={() => {navigation.navigate('Plant', {plant: item})}} style={styles.item}>
                 <Image
                     style={styles.image}
                     source={{

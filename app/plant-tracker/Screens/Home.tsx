@@ -24,7 +24,7 @@ export default function Home() {
                 rowGap: 20
             }} >
                 <Text style={styles.headerText}>Good {greeting},{'\n'}Kalyan</Text>
-                <Snapshot />
+                {/* <Snapshot /> */}
                 <AvailableValves />
                 <PlantList />
             </ScrollView>

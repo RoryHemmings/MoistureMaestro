@@ -24,7 +24,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 //Change to another http verb
 app.get("/seed", (req: Request, res: Response, next: NextFunction) => {
-    // generateMoistureTestData(); 
+    generateMoistureTestData(); 
     generatePlantTestData(); 
     res.status(200); 
     res.send("Successfully seeded database");
@@ -33,8 +33,10 @@ app.get("/seed", (req: Request, res: Response, next: NextFunction) => {
 //Change to another http verb
 app.get("/clear", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await db.query("TRUNCATE history;");
-        await db.query("TRUNCATE plants;"); 
+        await db.query("DROP TABLE history;");
+        await db.query("DROP TABLE plants;"); 
+        await db.initDB();
+        res.status(200).send("Cleared Database");
     } catch (err) {
         res.status(500).send("Failed to read from database");
     }
@@ -52,7 +54,7 @@ app.get("/all", async (req: Request, res: Response, next: NextFunction) => {
 app.get("/device/:device_id", async (req: Request, res: Response, next: NextFunction) => {
     let device_id = parseInt(req.params.device_id); 
     try {
-        const data = await db.query("SELECT * FROM history WHERE device_id = $1 AND timestamp BETWEEN current_date and current_date + interval '7 days' ORDER BY timestamp;", [device_id]);
+        const data = await db.query("SELECT * FROM history WHERE device_id = $1 AND timestamp BETWEEN current_date and current_date + interval '1 day' ORDER BY timestamp;", [device_id]);
         res.status(200).json(data.rows);
     } catch (err) {
         res.status(500).send(`Failed to read from database: ${err}`);
