@@ -1,10 +1,12 @@
-import { Text, FlatList, View, Image, StyleSheet } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import { Text, FlatList, View, Image, StyleSheet, useWindowDimensions, TouchableOpacity } from 'react-native'
+import React, { useContext, useEffect, useState,} from 'react'
 import { AppContext } from '../Context';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 
 export default function PlantList() {
     const { ip } = useContext(AppContext);
     const [plants, setPlants] = useState([])
+    const navigation: NavigationProp<RootStackParamList>  = useNavigation();
     useEffect(() => {
         fetch(`http://${ip}:3000/plants`).then((res) => {
             res.json().then((data) => {
@@ -15,35 +17,43 @@ export default function PlantList() {
 
     const Item = ({ item }) => {
         return (
-            <View>
+            <TouchableOpacity onPress={() => {navigation.navigate('Plant', {deviceID: item.device_id})}} style={styles.item}>
                 <Image
                     style={styles.image}
                     source={{
                         uri: item.image,
                     }}
                 />
-                <Text style={styles.item}>{item.plant_name}</Text>
-            </View>
+                <Text style={styles.label}>{item.plant_name}</Text>
+            </TouchableOpacity>
         );
     }
     return (
-        <View style={styles.container}>
+        <View>
+            <Text style={styles.headerText}>Your Plants</Text>
             <FlatList
                 data={plants}
                 renderItem={({ item }) => <Item item={item} />}
+                horizontal
+                contentContainerStyle={{alignItems: "stretch"}}
+                ItemSeparatorComponent={() => <View style={{width: 20}} />}
+                style={{ overflow: "visible", marginTop: 10, gap: 20 }}
             />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        gap: 20,
-        paddingVertical: 20,
+    headerText: {
+        fontFamily: "satoshi-b",
+        lineHeight: 22,
+        fontSize: 20,
+        marginVertical: 5,
     },
     item: {
+        width: 280,
+    },
+    label: {
         fontFamily: 'satoshi-m',
         fontWeight: '300',
         fontSize: 18,

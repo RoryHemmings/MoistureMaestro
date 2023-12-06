@@ -3,13 +3,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import LineChart, { LineChartData } from 'react-native-chart-kit/dist/line-chart/LineChart';
 import { AppContext } from '../Context';
 
-export default function Graph() {
+export default function Graph({ deviceID }: { deviceID: number }) {
     const { ip } = useContext(AppContext);
     const [data, setData] = useState([]);
     const [chartData, setChartData] = useState<LineChartData>();
     const [showGraph, setShowGraph] = useState(false);
     const getData = async () => {
-        const r = await fetch(`http://${ip}:3000/all`)
+        const r = await fetch(`http://${ip}:3000/device/${deviceID}`)
         const _data = await r.json();
         setData(_data);
     }
@@ -31,6 +31,10 @@ export default function Graph() {
             setShowGraph(true);
         }
     }
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     useEffect(() => {
         generateData(data);
