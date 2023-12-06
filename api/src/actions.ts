@@ -45,11 +45,11 @@ export async function generateMoistureTestData() {
 export async function generatePlantTestData() {
     let plants = [
         {
-            plant_name: 'ZZ Plant',
+            plant_name: 'Ruscus',
             optimal_range_min: 70,
             optimal_range_max: 60,
             connected_valve: 1,
-            image: 'https://costafarms.com/cdn/shop/files/DSC03638-Edit--cream_900x.jpg?v=1694800191'
+            image: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRc7-2oiLn1GJXQyurunG8N5hx4d8st9r5L7N-Ak4e6Fp5RHKZY'
         },
         {
             plant_name: 'Pilea',
@@ -59,35 +59,14 @@ export async function generatePlantTestData() {
             image: 'https://www.easytogrowbulbs.com/cdn/shop/products/PileaChineseMoneyPlant_ParentinTerracottaRomeyPot_sqWeb_ETGB_2280c9da-e3fb-4305-9363-f2a47677b175_1024x.jpg?v=1627661719'
         },
         {
-            plant_name: 'Alocasia Silver Dragon',
-            optimal_range_min: 67,
-            optimal_range_max: 60,
-            connected_valve: 1,
-            image: 'https://costafarms.com/cdn/shop/articles/Silver_20Dragon_20Alocasia_20-_20Costa_20Farms_20Trending_20Tropical_1000x1000.jpg?v=1680798954'
-        },
-        {
             plant_name: 'Monstera',
             optimal_range_min: 70,
             optimal_range_max: 60,
             connected_valve: 1,
             image: 'https://begreen.imgix.net/63871a909af0d340974905.jpg?w=1200&h=1200&auto=format'
-        },
-        {
-            plant_name: 'Asparagus fern',
-            optimal_range_min: 65,
-            optimal_range_max: 52,
-            connected_valve: 1,
-            image: 'https://www.plantflix.com/cdn/shop/files/asparagus-plumosus-nana-lace-fern-plantflix-7-33761063239912.jpg?v=1694665644&width=1500'
-        },
-        {
-            plant_name: 'Common Cactus',
-            optimal_range_min: 40,
-            optimal_range_max: 20,
-            connected_valve: 1,
-            image: 'https://animals.sandiegozoo.org/sites/default/files/2016-10/plants_hero_cactusB.jpg'
-        },
+        }
     ]
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
         try {
             await db.query(
                 "INSERT INTO plants (device_id, plant_name, optimal_range_min, optimal_range_max, connected_valve, image) VALUES ($1, $2, $3, $4, $5, $6);",

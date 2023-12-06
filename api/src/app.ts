@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import * as db from "./db";
 import { initArduinoListener, openValve, closeValve } from "./arduino";
-import { generateMoistureTestData, generatePlantTestData } from "./actions";
+import { generateMoistureTestData, generatePlantTestData as generatePlantData } from "./actions";
 
 const app = express();
 dotenv.config(); // Read env variables from .env file
@@ -24,8 +24,8 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 //Change to another http verb
 app.get("/seed", (req: Request, res: Response, next: NextFunction) => {
-    generateMoistureTestData(); 
-    generatePlantTestData(); 
+    // generateMoistureTestData(); 
+    generatePlantData(); 
     res.status(200); 
     res.send("Successfully seeded database");
 })
