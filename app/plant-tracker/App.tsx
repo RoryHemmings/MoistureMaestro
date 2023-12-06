@@ -27,7 +27,7 @@ export default function App() {
   }
 
   return (
-    <AppContext.Provider value={{ ip: "172.16.0.47" }}>
+    <AppContext.Provider value={{ ip: "172.16.0.4" }}>
       <NavigationContainer>
         <StatusBar style="auto" />
         <Stack.Navigator screenOptions={{ headerShown: false, cardStyle: { backgroundColor: '#FFFFFF' } }} >
