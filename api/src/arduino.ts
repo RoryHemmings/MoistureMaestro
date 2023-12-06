@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import * as db from "./db";
 import { createServer, Socket } from "net";
+import { insertMoistureReading } from "./actions";
 
 dotenv.config();
 
@@ -38,12 +39,8 @@ const handleData = (data: Buffer) => {
             if (reading > 1000) // Bug fix
                 reading = Math.floor(reading / 10);
 
-            console.log("New: ", reading);
-
-            db.query(
-                "INSERT INTO history (device_id, event_type, reading, timestamp) VALUES ($1, $2, $3, $4);",
-                [device_id, event_type, reading, new Date()]
-            );
+            console.log("New Reading: ", reading);
+            insertMoistureReading(device_id, event_type, reading, new Date()); 
         } catch (err) {
             console.error("Failed to Record Reading: ", err);
         }
