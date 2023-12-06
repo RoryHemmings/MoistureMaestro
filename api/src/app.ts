@@ -64,7 +64,7 @@ app.get("/device/:device_id", async (req: Request, res: Response, next: NextFunc
 app.get("/current_reading/:device_id", async (req: Request, res: Response, next: NextFunction) => {
     let device_id = parseInt(req.params.device_id); 
     try {
-        const data = await db.query("SELECT * FROM history WHERE device_id = $1 ORDER BY timestamp LIMIT 1;", [device_id]);
+        const data = await db.query("SELECT * FROM history WHERE device_id = $1 ORDER BY timestamp DESC LIMIT 1;", [device_id]);
         res.status(200).json(data.rows);
     } catch (err) {
         res.status(500).send(`Failed to read from database: ${err}`);

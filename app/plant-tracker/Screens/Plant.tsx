@@ -15,6 +15,7 @@ function Plant(props) {
     const fetchData = async () => {
         const response = await fetch(`http://${ip}:3000/current_reading/${plant.device_id}`)
         const data = await response.json();
+        console.log(data); 
         return data;
     };
 
